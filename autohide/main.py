@@ -23,6 +23,9 @@ class MainWindow(MainWindowUI, MainWindowBase):
         QtAds.CDockManager.setConfigFlag(QtAds.CDockManager.OpaqueSplitterResize, True)
         QtAds.CDockManager.setConfigFlag(QtAds.CDockManager.XmlCompressionEnabled, False)
         QtAds.CDockManager.setConfigFlag(QtAds.CDockManager.FocusHighlighting, True)
+        # Enable AutoHide functionality
+        QtAds.CDockManager.setAutoHideConfigFlags(QtAds.CDockManager.DefaultAutoHideConfig)
+        QtAds.CDockManager.setAutoHideConfigFlag(QtAds.CDockManager.AutoHideShowOnMouseOver, True)
         self.dock_manager = QtAds.CDockManager(self)
 
         # Set central widget
@@ -42,7 +45,8 @@ class MainWindow(MainWindowUI, MainWindowBase):
         table_dock_widget.setMinimumSizeHintMode(QtAds.CDockWidget.MinimumSizeHintFromDockWidget)
         table_dock_widget.resize(250, 150)
         table_dock_widget.setMinimumSize(200, 150)
-        table_area = self.dock_manager.addDockWidget(QtAds.DockWidgetArea.LeftDockWidgetArea, table_dock_widget)
+         # Add Table 1 as auto-hide widget on the left side
+        self.dock_manager.addAutoHideDockWidget(QtAds.SideBarLeft, table_dock_widget)
         self.menuView.addAction(table_dock_widget.toggleViewAction())
 
         table = QTableWidget()
@@ -53,7 +57,8 @@ class MainWindow(MainWindowUI, MainWindowBase):
         table_dock_widget.setMinimumSizeHintMode(QtAds.CDockWidget.MinimumSizeHintFromDockWidget)
         table_dock_widget.resize(250, 150)
         table_dock_widget.setMinimumSize(200, 150)
-        table_area = self.dock_manager.addDockWidget(QtAds.DockWidgetArea.BottomDockWidgetArea, table_dock_widget, table_area)
+        # Add Table 2 as auto-hide widget on the bottom
+        self.dock_manager.addAutoHideDockWidget(QtAds.SideBarBottom, table_dock_widget)
         self.menuView.addAction(table_dock_widget.toggleViewAction())
 
         properties_table = QTableWidget()
@@ -64,7 +69,8 @@ class MainWindow(MainWindowUI, MainWindowBase):
         properties_dock_widget.setMinimumSizeHintMode(QtAds.CDockWidget.MinimumSizeHintFromDockWidget)
         properties_dock_widget.resize(250, 150)
         properties_dock_widget.setMinimumSize(200, 150)
-        self.dock_manager.addDockWidget(QtAds.DockWidgetArea.RightDockWidgetArea, properties_dock_widget, central_dock_area)
+        # Add Properties as auto-hide widget on the right side
+        self.dock_manager.addAutoHideDockWidget(QtAds.SideBarRight, properties_dock_widget)
         self.menuView.addAction(properties_dock_widget.toggleViewAction())
 
         self.create_perspective_ui()
@@ -104,4 +110,3 @@ if __name__ == '__main__':
     w = MainWindow()
     w.show()
     app.exec()
-
